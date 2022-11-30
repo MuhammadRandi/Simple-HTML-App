@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script language="Javascript">
+
+    let savedData = []
+    function saveInput() {
+        let data = {};
+        data = {
+            nama: document.getElementById('nama').value,
+            umur: document.getElementById('umur').value,
+            nilai: document.getElementById('nilai').value,
+        }
+        savedData.push(data)
+    }
+
+    function showInput() {
+        saveInput();
+        document.getElementById('nama').value = '';
+        document.getElementById('umur').value = '';
+        document.getElementById('nilai').value = '';
+
+        document.getElementById('showData').innerHTML = savedData.map(function (data) {
+            return `
+            <div>
+                Nama Mahasiswa: ${data.nama}<br>
+                Umur Mahasiswa: ${data.umur} <br>
+                Nilai Mahasiswa: ${data.nilai}<br>
+            </div><br>  
+        `
+        }).join('');
+
+        let avgAge = savedData.map(function (data) { return data.umur })
+            .reduce(function (accumulator, currentValue) { return parseInt(accumulator) + parseInt(currentValue) })
+            / savedData.length
+
+        let avgScore = savedData.map(function (data) { return data.nilai })
+            .reduce(function (accumulator, currentValue) { return parseInt(accumulator) + parseInt(currentValue) })
+            / savedData.length
+
+        console.log(avgAge)
+
+        document.getElementById('showCalc').innerHTML =
+            `
+            <div>
+                <br>
+                Rata-Rata Umur Mahasiswa : ${avgAge} <br>
+                Rata-Rata Nilai Mahasiswa : ${avgScore}<br>
+                <br>
+            </div>
+        `
+    }
+
+</script>
+
+<body>
+    <form>
+        <input type="text" name="nama" id="nama" placeholder="Nama Mahasiswa">
+        <input type="number" name="umur" id="umur" placeholder="Umur Mahasiswa">
+        <input type="number" name="nilai" id="nilai" placeholder="Nilai">
+        <input type="button" value="Input" onclick="showInput()">
+    </form>
+
+    <div id="showCalc"></div>
+    <div id="showData"></div>
+</body>
+
+</html>
